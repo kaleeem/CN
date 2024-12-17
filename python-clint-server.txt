@@ -1,0 +1,28 @@
+server
+import socket
+
+host='127.0.0.1'
+port=8500
+lk=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+lk.bind((host,port))
+while True:
+    lk.listen()
+    client,address=lk.accept()
+    response=client.recv(1024)
+
+    if response !="":
+        print("text received is: " + response.decode())
+    print("text in uppercase: " + (response.decode()).upper())
+client.close()
+
+client
+import socket
+
+host='127.0.0.1'
+port=8500
+lk=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+lk.connect((host,port))
+print("sending data comm.hello")
+lk.send("server client comm.hello".encode())
+response=lk.recv(1024)
+
