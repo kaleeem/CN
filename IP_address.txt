@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int first_byte, second_byte, third_byte, fourth_byte;
+
+    printf("Input IP Address (four space-separated integers):\n");
+    scanf("%d %d %d %d", &first_byte, &second_byte, &third_byte, &fourth_byte);
+
+    if ((first_byte >= 0) && (first_byte <= 127))
+    {
+        printf("Class A address\n");
+        printf("Network id = %d\n", first_byte);
+        printf("Host id = %d.%d.%d\n", second_byte, third_byte, fourth_byte);
+        exit(0);
+    }
+    if ((first_byte >= 128) && (first_byte <= 191))
+    {
+        printf("Class B address\n");
+        printf("Network id = %d.%d\n", first_byte, second_byte);
+        printf("Host id = %d.%d\n", third_byte, fourth_byte);
+        exit(0);
+    }
+    if ((first_byte >= 192) && (first_byte <= 223))
+    {
+        printf("Class C address\n");
+        printf("Network id = %d.%d.%d\n", first_byte, second_byte, third_byte);
+        printf("Host id = %d\n", fourth_byte);
+        exit(0);
+    }
+    if ((first_byte >= 224) && (first_byte <= 239))
+    {
+        printf("Class D address\n");
+        printf("Multicast Address\n");
+        exit(0);
+    }
+    if ((first_byte >= 240) && (first_byte <= 255))
+    {
+        printf("Class E address\n");
+        printf("Reserved for future use\n");
+        exit(0);
+    }
+
+    printf("Invalid IP Address\n");
+    return 0;
+}
