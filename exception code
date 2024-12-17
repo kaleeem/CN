@@ -1,0 +1,69 @@
+server
+
+import socket
+
+# Server details
+host = '127.0.0.1'  # Localhost
+port = 8500         # Port number
+
+# Create the socket
+lk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+lk.bind((host, port))  # Bind the server to the address and port
+print(f"Server started at {host}:{port}")
+
+# Listen for incoming connections
+lk.listen()  # Allow the server to accept connections
+print("Waiting for a connection...")
+
+while True:
+    try:
+        # Accept a new connection
+        client, address = lk.accept()
+        print(f"Connection established with {address}")
+
+        # Receive data from the client
+        response = client.recv(1024)  # Receive up to 1024 bytes
+        if response:
+            decoded_text = response.decode()
+            print("Text received is: " + decoded_text)
+            print("Text in uppercase: " + decoded_text.upper())
+
+        # Send the uppercase text back to the client (optional)
+        client.send(decoded_text.upper().encode())
+
+        # Close the client connection
+        client.close()
+        print("Connection closed.\n")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+client
+
+import socket
+
+host = '127.0.0.1'  # Localhost
+port = 8500         # Port number
+
+try:
+    # Create a socket
+    lk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    lk.connect((host, port))  # Connect to the server
+    print("Connected to server at {}:{}".format(host, port))
+
+    # Send data
+    message = "server client comm.hello"
+    print(f"Sending data: {message}")
+    lk.send(message.encode())  # Encode string to bytes
+
+    # Receive response
+    response = lk.recv(1024)  # Receive up to 1024 bytes
+    print(f"Received response: {response.decode()}")
+
+except ConnectionRefusedError:
+    print("Error: Could not connect to the server. Is it running?")
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    # Close the socket
+    lk.close()
+    print("Socket closed.")
